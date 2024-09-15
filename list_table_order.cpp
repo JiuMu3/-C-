@@ -16,19 +16,19 @@ public:
 template<typename T>
 STATUS initList(MyListOrder<T> **L){
 	*L=new MyListOrder<T>();
-	if(L!=NULL){
+	if(*L!=NULL){
 		return OK;
 	}
 	return ERROR;
 }
 //删除线性表
 template<typename T>
-STATUS deleteList(MyListOrder<T> *L){
-	if(L==nullptr){
+STATUS deleteList(MyListOrder<T> **L){
+	if(*L==nullptr){
 		return ERROR;
 	}
-	delete L;
-	L=nullptr;
+	delete *L;
+	*L=nullptr;
 	return OK;
 }
 //判断线性表是否为空
@@ -61,7 +61,7 @@ STATUS getElem(MyListOrder<T> &L,int i,T *e){
 		return ERROR;
 	}
 	else{
-		*e=L.DataElem[i+1];
+		*e=L.DataElem[i-1];
 		return OK;
 	}
 }
@@ -119,7 +119,7 @@ STATUS listDelete(MyListOrder<T> &L,int j,T &e){
 	}
 	else{
 		e= L.DataElem[j-1];
-		for(int i=j-1;i<=L.CurrentSize-1;i++){
+		for(int i=j-1;i<L.CurrentSize-1;i++){
 			L.DataElem[i]=L.DataElem[i+1];
 		}
 		L.CurrentSize--;
