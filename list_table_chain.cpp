@@ -60,7 +60,7 @@ STATUS listInsert(MyListChain<T> &L,T &e,int pos){
 		return ERROR;
 	}
 	MyListChainNode<T> *temp=L.nodehead;
-	for(int i=0;i<pos;i++){
+	for(int i=0;i<pos-1;i++){
 		temp=temp->Next;
 	}
 	
@@ -93,6 +93,35 @@ STATUS listDelete(MyListChain<T> &L,int pos,T &e){
 	L.chainLen--;
 	return OK;
 }
+//清空线性表
+template<typename T>
+STATUS clearListElem(MyListChain<T> &L){
+	MyListChainNode<T> *temp=L.nodehead;
+	temp=temp->Next;
+	MyListChainNode<T> *temp_1;
+	while(temp_1!=nullptr){
+		temp_1=temp->Next;
+		delete temp;
+		temp=temp_1;
+	}
+	L.chainLen=0;
+	temp=L.nodehead;
+	temp->Next=nullptr;
+	return OK;
+}
+//返回链表长度
+template<typename T>
+STATUS getListLen(MyListChain<T> &L,int &len){
+	len=L.chainLen;
+	return OK;
+}
+//返回链表是否为空
+template<typename T>
+STATUS isListEmpty(MyListChain<T> &L,bool isempty){
+	isempty=(L.chainLen==0);
+	return OK;
+}
+
 int main()
 {
 	return 0;
