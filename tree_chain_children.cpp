@@ -92,6 +92,18 @@ public:
 	CTBox<T> Box[MAX_TREE_SIZE];
 	int r,n;/*根的位置和节点数*/
 };
+
+//孩子兄弟表示法
+//节点里面指针域存储两个指针，一个是第一个孩子，第二个是右边的第一个兄弟
+template<typename T>
+class TreeChildrenBrotherNode{
+public:
+	TreeChildrenBrotherNode():firstChil(nullptr),firstBrot(nullptr){}
+	TreeChildrenBrotherNode(T val):firstChil(nullptr),firstBrot(nullptr),data(val){}
+	T data;
+	TreeChildrenBrotherNode<T> *firstChil;
+	TreeChildrenBrotherNode<T> *firstBrot;
+};
 int main(){
 	return 0;
 }
