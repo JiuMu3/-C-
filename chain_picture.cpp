@@ -1,4 +1,5 @@
 #include <iostream>
+#include <queue>
 using namespace std;
 #define MAXNUM 1024
 template<typename T>
@@ -194,6 +195,77 @@ void InsertNewLine(ChainArray<T> &P,int i,int j,int w){
 	e->next=P.pointArray[j].first;
 	P.pointArray[j].first=e;
 	return;
+}
+enum Boolen{FALSE,TRUE};
+Boolen visited[MAXNUM];
+//深度优先遍历
+template<typename T>
+void DFS(ChainArray<T> &P,int i){
+	visited[i]=TRUE;
+	cout<<P.pointArray[i].data<<endl;
+	
+	EdgeNode<T> *temp;
+	temp=P.pointArray[i].first;
+	
+	while(temp!=nullptr){
+		if(visited[P.pointArray[temp->nextNode]]==FALSE){
+			DFS(P,temp->nextNode);
+		}
+		temp=temp->next;
+	}
+}
+
+template<typename T>
+void DFSTraver(ChainArray<T> &P){
+	//初始化visited数组
+	for(int i=0;i<P.pointNum;i++){
+		visited[i]=FALSE;
+	}
+	
+	for(int i=0;i<P.pointNum;i++){
+		if(visited[i]!=TRUE){
+			DFS(P,i);
+		}
+	}
+}
+
+//广度优先遍历
+template<typename T>
+void BFS(ChainArray<T> &P){
+	if(isEmpty(P)){
+		cout<<"数组为空"<<endl;
+		return;
+	}
+	EdgeNode<T> *p;
+	//初始化visited数组
+	for(int i=0;i<P.pointNum;i++){
+		visited[i]=FALSE;
+	}
+	queue<int> BFS_QUEUE;
+	
+	for(int i=0;i<P.pointNum;i++){
+		if(visited[i]==FALSE){
+			visited[i]=TRUE;
+			cout<<P.pointArray[i].data<<endl;
+			BFS_QUEUE.push(i);
+			
+			while(!BFS_QUEUE.empty()){
+				int temp=BFS_QUEUE.front();
+				BFS_QUEUE.pop();
+				p=P.pointArray[temp].first;
+				
+				while(p!=nullptr){
+					if(visited[p->nextNode]==FALSE){
+						visited[p->nextNode]=TRUE;
+						cout<<P.pointArray[p->nextNode].data<<endl;
+						
+						BFS_QUEUE.push(p->nextNode);
+					}
+					p=p->next;
+				}
+			}
+		}
+	}
 }
 int main(){
 	return 0;

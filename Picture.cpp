@@ -208,7 +208,8 @@ void BFS(Picture<T> &P){
 			cout<<P.PointNum[i].data<<endl;
 			BFS_QUEUE.push(i);
 			while(!BFS_QUEUE.empty()){
-				int temp=BFS_QUEUE.pop();
+				int temp=BFS_QUEUE.front();
+				BFS_QUEUE.pop();
 				for(j=0;j<P.pointNum;j++){
 					if(P.PointLine[temp][j]==1&&visited[j]==FALSE){
 						visited[j]=TRUE;
