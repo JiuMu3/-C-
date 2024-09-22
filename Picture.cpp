@@ -1,4 +1,5 @@
 #include <iostream>
+#include <queue>
 using namespace std;
 #define MAXNUM 1024
 #define IFINITY 65535
@@ -148,7 +149,8 @@ void PopBack(Picture<T> &P,int pos){
 	P.pointNum--;
 	return;
 }
-
+enum Boolen{FALSE,TRUE};
+Boolen visited[MAXNUM];
 //将某一边清除
 template<typename T>
 void deleteLine(Picture<T> &P,int i,int j){
@@ -158,6 +160,65 @@ void deleteLine(Picture<T> &P,int i,int j){
 	}
 	P.lineNum[i][j]=IFINITY;
 	return;
+}
+template<typename T>
+void DFS(Picture<T> &P,int i)
+{
+	visited[i]=TRUE;
+	cout<<P.PointNum[i].data;
+	for(int j=0;j<P.pointNum;j++){
+		if(P.PointLine[i][j]==1&&visited[j]==FALSE){
+			DFS(P,j);
+		}
+	}
+}//深度优先遍历树
+template<typename T>
+void DFSTraver(Picture<T> &P){
+	int i;
+	for(i=0;i<P.pointNum;i++){
+		visited[i]=FALSE;
+	}
+	
+	for(i=0;i<P.pointNum;i++){
+		if(visited[i]!=TRUE){
+			DFS(P,i);
+		}
+	}
+	
+}
+
+//广度优先遍历
+//相当于只要是访问过的节点，访问完成后就立即入队
+//当给出队的时候就要对与出队节点相连的节点进行访问
+//在访问这些节点的时候再次进行入队
+//直到队为空
+template<typename T>
+void BFS(Picture<T> &P){
+	int i,j;
+	queue<int> BFS_QUEUE;
+	//初始化所有visited节点
+	for(i=0;i<P.pointNum;i++){
+		visited[i]=FALSE;
+	}
+	
+	for(i=0;i<P.pointNum;i++){
+		if(visited[i]==FALSE){
+			visited[i]=TRUE;
+			//访问操作
+			cout<<P.PointNum[i].data<<endl;
+			BFS_QUEUE.push(i);
+			while(!BFS_QUEUE.empty()){
+				int temp=BFS_QUEUE.pop();
+				for(j=0;j<P.pointNum;j++){
+					if(P.PointLine[temp][j]==1&&visited[j]==FALSE){
+						visited[j]=TRUE;
+						cout<<P.PointNum[j].data<<endl;
+						BFS_QUEUE.push(j);
+					}
+				}
+			}
+		}
+	}
 }
 int main(){
 	return 0;
